@@ -1,0 +1,5 @@
+database:
+  type: "sqlite"
+  path: ""
+  timeout: 10
+  retry_attempts: 3
