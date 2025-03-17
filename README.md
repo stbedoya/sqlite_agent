@@ -1,4 +1,4 @@
-# SQLITE LLM Agent 
+# SQL LLM Agent 
 In this series of notebooks, I develop an NBA AI agent using LLaMA 3-8B Instruct as the foundational model. The agent's primary function is to generate accurate and efficient SQL queries to extract insights from the nba_roster database. Given a structured schema and a natural language question, the agent translates the request into an executable SQL statement.
 
 **Pipeline Overview:**
