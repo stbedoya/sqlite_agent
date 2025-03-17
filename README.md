@@ -21,6 +21,9 @@ In this series of notebooks, I develop an NBA AI agent using LLaMA 3-8B Instruct
    cd nba-agent
 
 
-## LLM Training and Fine-Tuning
-| Description | Link |
-| Prompting and structured output with LLaMA 3-8B |[Link](https://github.com/sbedoya/sqlite_agent/notebooks/prompting_llama3.ipynb) |
+## LLM Prompting and Fine-Tuning
+
+| Description                                      | Link  |
+|--------------------------------------------------|-------|
+| Prompting and structured output with LLaMA 3-8B | [Notebook](https://github.com/stbedoya/sqlite_agent/blob/main/notebooks/prompting_llama3.ipynb) |
+

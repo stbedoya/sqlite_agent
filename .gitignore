@@ -19,3 +19,4 @@ env/
 
 # folder with models 
 models/
+.ipynb_checkpoints/
