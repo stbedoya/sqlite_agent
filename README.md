@@ -17,7 +17,7 @@ In this series of notebooks, I develop an NBA AI agent using LLaMA 3-8B Instruct
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/<your-username>/nba-agent.git
+   git clone https://github.com/stbedoya/nba-agent.git
    cd nba-agent
 
 
