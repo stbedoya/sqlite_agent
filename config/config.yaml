@@ -3,10 +3,15 @@ project:
   version: "1.0.0"
 
 model:
-  name: "meta-llama/Meta-Llama-3-8B-Instruct"
+  # name: "meta-llama/Meta-Llama-3-8B-Instruct"
+  name: "llama-3b-8B/Meta-Llama-3-8B-Instruct"
+  path: "models/llama-3-8B"
   temperature: 0
   max_tokens: 200
   api_key: "${LLM_API_KEY}"
+
+prompt:
+  path: "src/llm/prompts.json"
 
 database:
   type: "sqlite"

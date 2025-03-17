@@ -1,0 +1,6 @@
+{
+  "experiment_1": {
+    "system_instructions": "You are an NBA analyst with 15 years of experience writing complex SQL queries. Consider the nba_roster table with the following schema: {schema}\n\nWrite a SQLite query to answer the following question. Follow instructions exactly.",
+    "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n{system_instructions}<|eot_id|>\n<|start_header_id|>user<|end_header_id|>\n{question}<|eot_id|>\n<|start_header_id|>assistant<|end_header_id|>\n"
+  }
+}

@@ -1,6 +1,8 @@
 import logging
 import jsonlines
+
 from src.llm.llm_model import LLMModel
+from src.llm.llm_prompt import PromptLoader
 from src.llm.sql_extractor import SQLQueryExtractor
 from src.research.dataset_loader import GoldDatasetLoader
 from src.utils.schema_provider import SchemaProvider
@@ -16,6 +18,8 @@ class ExperimentRunner:
         model_name: str,
         dataset_path: str,
         output_file: str,
+        prompt_file: str,
+        experiment_name: str,
         max_examples: int = None,
         batch_size: int = 100,
     ):
@@ -24,7 +28,9 @@ class ExperimentRunner:
         self.output_file = output_file
         self.max_examples = max_examples
         self.batch_size = batch_size
+        self.experiment_name = experiment_name
         self.llm_model = LLMModel(model_name)
+        self.prompt_loader = PromptLoader(prompt_file)
 
     def run(self):
         """Run the experiment and save results in batches to optimize performance."""
@@ -35,12 +41,12 @@ class ExperimentRunner:
                 self.dataset_path, self.max_examples
             ):
                 question = example.get("question", "")
+                variables = {
+                    "schema": SchemaProvider.get_nba_schema(),
+                    "question": question,
+                }
 
-                system_instructions = f"""You are an NBA analyst with 15 years of experience writing complex SQL queries. 
-                Consider the nba_roster table with the following schema:
-                {SchemaProvider.get_nba_schema()}\n\nWrite a SQLite query to answer the following question. Follow instructions exactly."""
-
-                prompt = f"<|begin_of_text|>{system_instructions}<|start_header_id|>user<|end_header_id|>\n\n{question}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+                prompt = self.prompt_loader.get_prompt(self.experiment_name, variables)
                 logger.info(f"Processing question: {question}")
 
                 output_llm = self.llm_model.generate_response(prompt)
@@ -49,12 +55,17 @@ class ExperimentRunner:
                 sql_query = SQLQueryExtractor.extract_sql_query(output_llm)
                 logger.info(f"Extracted SQL Query: {sql_query}")
 
-                # Store result in batch
+                # tokens = tokenizer.tokenize(text)
+                # num_tokens = len(tokens)
+                # print(f"Number of tokens in your text: {num_tokens}")
+
                 batch.append(
                     {
                         "question": question,
                         "generated_response": output_llm,
                         "sql_query": sql_query,
+                        "num_output_tokens": len(output_llm.split()),
+                        "num_input_tokens": len(prompt.split()),
                     }
                 )
 
@@ -68,3 +79,4 @@ class ExperimentRunner:
             if batch:
                 writer.write_all(batch)
                 logger.info(f"Saved final {len(batch)} results to {self.output_file}")
+        self.llm_model.close()

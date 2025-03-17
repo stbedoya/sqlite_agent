@@ -10,7 +10,9 @@ if __name__ == "__main__":
         model_name=CONFIG["model"]["name"],
         dataset_path=CONFIG["gold_test_set"]["path"],
         output_file=CONFIG["generated_output"]["path"],
-        max_examples=2,
-        batch_size=2,
+        prompt_file=CONFIG["prompt"]["path"],
+        experiment_name="experiment_1",
+        max_examples=1,
+        batch_size=1,
     )
     experiment.run()
